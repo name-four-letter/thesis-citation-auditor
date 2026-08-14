@@ -1,0 +1,11 @@
+papers/
+drafts/
+output/
+generic_test_refs/
+generic_test_output/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
