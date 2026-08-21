@@ -5,7 +5,7 @@ description: Audit thesis or academic drafts in DOCX, Markdown, or text; identif
 
 # Thesis Citation Auditor
 
-Use the existing runner at `C:\Users\jinu\Desktop\AI\thesis_assistant\thesis_assistant.py`.
+Use the repository's bundled `thesis_assistant.py` runner. Resolve the repository root from the installed source or the user's project; never assume a personal absolute path.
 Treat its output as retrieval material, not as the final semantic judgment.
 
 ## Inputs
@@ -18,6 +18,13 @@ Treat its output as retrieval material, not as the final semantic judgment.
 - Preserve source files. Never require users to copy them into a fixed project directory.
 - For DOCX or PDF inspection, use the corresponding document/PDF skill and follow its verification workflow.
 
+## Evidence and comparability rules
+
+- Treat AI/external-review feedback and research summaries as issue candidates, not evidence. When they conflict, prefer the cited paper's full text, then other user-supplied primary material, over secondary summaries.
+- Verify that each cited value and claim share the relevant measurement context: sample, device, operating condition, material composition, and metric definition. Do not combine a best value from one condition with a separate demonstration as if they describe one result.
+- Preserve authors' reported metric, unit, and qualifier. Any cross-study conversion must state its formula and assumptions, be labeled as calculated, and be omitted when the available geometry or conditions do not justify it.
+- For figures and tables, verify the caption, the accompanying text, and the cited source together. A figure used for cross-study comparison must state whether it is a correlation, an illustrative capability map, or another limited comparison.
+
 ## Workflow
 
 1. Verify that the draft exists and the reference folder contains PDFs. Report an empty or inaccessible folder instead of silently substituting another library.
@@ -29,15 +36,15 @@ Treat its output as retrieval material, not as the final semantic judgment.
 7. If support is partial, isolate each unsupported clause and search other local PDFs.
 8. If local evidence is insufficient, try lawful full-text routes: publisher OA, author/lab page, institutional repository or accepted manuscript, then public scholarly versions. Do not use Sci-Hub or bypass access controls.
 9. Download lawful full text to the selected reference folder, verify title, authors, DOI, relevant body passage, and page, then re-index. If full text cannot be obtained, label it `원문 미확보·미검증`; do not call it verified.
-10. Propose a minimally revised sentence. If inserting a new numbered reference at `[n]`, shift the existing `[n]` and later references instead of appending an arbitrary final number.
-11. Generate the scan report and run tests. Require zero pending verdicts for the selected claims, valid UTF-8, and a clean test run.
+10. Propose a minimally revised sentence. Before proposing reference renumbering, determine whether the required style orders references by first appearance. When it does, provide one whole-document mapping that updates the abstract, body, tables, figure captions, and bibliography without changing source-to-reference correspondence. Do not renumber merely to sort the bibliography.
+11. Generate the scan report and run tests. A scan report may contain unresolved candidates; before calling selected claims verified, resolve each selected claim to a final verdict, confirm valid UTF-8, and require a clean test run.
 
 ## Reporting Rules
 
 - Show only user-relevant fields: claim, existing citation, citation-necessity score and reason, verdict, supported/unsupported parts, clean source passage and page, revision, numbering plan, and user decision.
 - Keep labels in Korean throughout one report.
 - Remove watermarks, navigation text, raw retrieval scores, bibliography-match scores, and unrelated PDF text.
-- Do not alter the draft or accept a proposal without the user's decision.
+- Do not alter the draft or accept a proposal without the user's decision. If the user authorizes an edit, preserve non-text DOCX objects such as figures, drawings, equations, and embedded charts while changing text.
 - State limitations plainly; never claim exhaustive detection or fabricate references, page numbers, or performance values.
 
 ## Commands
@@ -45,9 +52,12 @@ Treat its output as retrieval material, not as the final semantic judgment.
 Use the bundled workspace Python when available:
 
 ```powershell
-$py = 'C:\Users\jinu\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'
-& $py 'C:\Users\jinu\Desktop\AI\thesis_assistant\thesis_assistant.py' index --papers-dir '<reference-folder>' --output-dir '<output-folder>'
-& $py 'C:\Users\jinu\Desktop\AI\thesis_assistant\thesis_assistant.py' prepare-ai '<draft-path>' --papers-dir '<reference-folder>' --output-dir '<output-folder>'
-& $py 'C:\Users\jinu\Desktop\AI\thesis_assistant\thesis_assistant.py' scan '<draft-path>' --papers-dir '<reference-folder>' --output-dir '<output-folder>'
-& $py -m unittest -v 'C:\Users\jinu\Desktop\AI\thesis_assistant\test_assistant.py'
+# Resolve this from the checked-out repository or installed skill package.
+$repo = '<repository-root>'
+$runner = Join-Path $repo 'thesis_assistant.py'
+$py = '<bundled-python-path>'
+& $py $runner index --papers-dir '<reference-folder>' --output-dir '<output-folder>'
+& $py $runner prepare-ai '<draft-path>' --papers-dir '<reference-folder>' --output-dir '<output-folder>'
+& $py $runner scan '<draft-path>' --papers-dir '<reference-folder>' --output-dir '<output-folder>'
+& $py -m unittest -v (Join-Path $repo 'test_assistant.py')
 ```
