@@ -25,6 +25,12 @@ Treat its output as retrieval material, not as the final semantic judgment.
 - Preserve authors' reported metric, unit, and qualifier. Any cross-study conversion must state its formula and assumptions, be labeled as calculated, and be omitted when the available geometry or conditions do not justify it.
 - For figures and tables, verify the caption, the accompanying text, and the cited source together. A figure used for cross-study comparison must state whether it is a correlation, an illustrative capability map, or another limited comparison.
 
+## Revision-priority scoring
+
+- Score every selected claim for **수정 필요도** on a 0–100 scale in addition to citation necessity. This is a triage priority, not a probability or a measure of writing quality.
+- Use [revision-priority.md](references/revision-priority.md) for the scoring signals and bands. Base the score on the severity of the evidence or interpretation problem, not on stylistic preference alone.
+- When the relevant evidence is unavailable, label the verdict `판단 자료 부족`, give a provisional score with that limitation, and recommend the next source to inspect or lawfully obtain rather than inventing a revision.
+
 ## Workflow
 
 1. Verify that the draft exists and the reference folder contains PDFs. Report an empty or inaccessible folder instead of silently substituting another library.
@@ -41,7 +47,7 @@ Treat its output as retrieval material, not as the final semantic judgment.
 
 ## Reporting Rules
 
-- Show only user-relevant fields: claim, existing citation, citation-necessity score and reason, verdict, supported/unsupported parts, clean source passage and page, revision, numbering plan, and user decision.
+- Sort findings by 수정 필요도, highest first. For each finding show: 수정 필요도 and reasons, original sentence, existing citation, citation-necessity score and reason, verdict, supported/unsupported parts, clean source passage and page, revision, numbering plan, and user decision.
 - Keep labels in Korean throughout one report.
 - Remove watermarks, navigation text, raw retrieval scores, bibliography-match scores, and unrelated PDF text.
 - Do not alter the draft or accept a proposal without the user's decision. If the user authorizes an edit, preserve non-text DOCX objects such as figures, drawings, equations, and embedded charts while changing text.
